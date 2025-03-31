@@ -14,9 +14,9 @@ const TodoContext = createContext<ITodocontext | undefined>
 (undefined);
 
 export const TodoProvider =({ children } :
-     PropsWithChildren): void => {
+     PropsWithChildren) => {
         const [todos, setTodos] = useState<TTodo[]>([]);
-        const [doneTodos, setDoneTodos] = useState<TTodo[]>([]);
+        const [doneTodos, setDoneTodos] = useState<TTodo[]>([]); // 반환값 구글링해서 찾아보기
 
         const addTodo = (text : string) : void => {
             const newTodo: TTodo = { id: Date.now(), text};
@@ -24,13 +24,13 @@ export const TodoProvider =({ children } :
         };
 
         const completeTodo =(todo: TTodo) : void => {
-            setTodos(prevTodos => prevTodos.filter((t) : Boolean => t.id !== todo.id));
+            setTodos(prevTodos => prevTodos.filter((t) : boolean => t.id !== todo.id));
             setDoneTodos((prevDoneTodos) : TTodo[] => [...prevDoneTodos, todo]);
         };
     
         const deleteTodo = (todo : TTodo) : void => {
             setDoneTodos((prevDoneTodo) : TTodo[] =>
-                prevDoneTodo.filter((t): Boolean => t.id !== todo.id)
+                prevDoneTodo.filter((t): boolean => t.id !== todo.id)
         );
     };
     return (

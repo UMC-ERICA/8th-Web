@@ -18,7 +18,7 @@ export default function ThemeContent() {
       </h1>
       <p className={clsx('mt-2', isLightMode ? 'text-black' : 'text-white')}>
         우와 ㅎ..... 됐다....... 가나다라마바사
-        아자차카타파하
+        <br/>아자차카타파하
         저 수요일에 놀러 가요
       </p>
   
