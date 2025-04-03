@@ -12,7 +12,7 @@ interface ITodoContext {
 export const TodoContext = createContext<ITodoContext | undefined>
 (undefined);
 
-export const TodoProvider = ({ children }: PropsWithChildren ) : Element =>{
+export const TodoProvider = ({ children }: PropsWithChildren ) =>{
     const [todos, setTodos] = useState <TTodo[]>([]);
     const [doneTodos, setDoneTodos] = useState<TTodo[]>([]);
 
@@ -40,7 +40,7 @@ export const TodoProvider = ({ children }: PropsWithChildren ) : Element =>{
 
     };
 
-    export const useTodo =(): void => {
+    export const useTodo =() => {
         const context = useContext(TodoContext);
         if (!context){
             throw new Error(

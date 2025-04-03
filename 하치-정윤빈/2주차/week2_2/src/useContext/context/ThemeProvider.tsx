@@ -13,7 +13,7 @@ interface IThemeContext {
 }
 export const ThemeContext = createContext<IThemeContext|undefined>(undefined);
 
-export const ThemeProvider = ({children}: PropsWithChildren) :Element =>{
+export const ThemeProvider = ({children}: PropsWithChildren) =>{
     const [theme,setTheme] =useState<TTheme>(THEME.LIGHT);
 
     const toggleTheme = (): void =>{

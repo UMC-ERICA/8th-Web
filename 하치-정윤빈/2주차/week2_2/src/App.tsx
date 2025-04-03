@@ -2,7 +2,7 @@ import './App.css';
 import ContextPage from './useContext/ContextPage';
 
 
-function App() : Element{
+function App(){
   return (
     <>
       <ContextPage/>
