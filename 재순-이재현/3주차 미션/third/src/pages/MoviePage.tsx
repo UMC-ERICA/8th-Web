@@ -4,7 +4,7 @@ import MovieCard from "../components/MovieCard";
 import { MovieResponse } from "../types/movie";
 import { useParams } from "react-router-dom";
 export default function MoviePage() : Element{
-        const {movies, setMovies} = useState<Movie[]>([]);
+        const [movies, setMovies] = useState<Movie[]>([]);
 
         // 1. 로딩 상태
         const [isPending, setIspening] = useState(false);

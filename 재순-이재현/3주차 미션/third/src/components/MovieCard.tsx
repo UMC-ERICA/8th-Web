@@ -19,8 +19,8 @@ export default function Moviecard({movie}: MovieCardProps): Element {
         onMouseEnter = {() => setIsHovered(true)} 
         onMouseLeave = {(): void => setIsHovered(false)}
         >
-        <img src={'https://image.tmdb.org/t/p/w200${movie.poster_path}'}
-        alt={'${movie.title}의 이미지'}
+        <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+        alt={`${movie.title}의 이미지`}
         className=""
         />
 
