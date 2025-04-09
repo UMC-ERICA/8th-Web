@@ -19,11 +19,12 @@ export default function MovieCard({movie}: MovieCardProps) {
     onMouseEnter={() : void => setIsHovered(true)}
     onMouseLeave={() : void => setIsHovered(false)}
     >
-    <img 
-    src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-    alt = {`${movie.title} 영화의 이미지`}
-    className=''
-    />
+
+  <img 
+    src={`${import.meta.env.VITE_TMDB_IMAGE_URL_W200}${movie.poster_path}`}
+    alt={`${movie.title} 영화의 이미지`}
+    className=""
+  />
 
     {isHovered && (
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 
