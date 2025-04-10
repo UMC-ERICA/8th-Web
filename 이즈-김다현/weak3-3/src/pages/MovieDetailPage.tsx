@@ -17,7 +17,7 @@ export default function MovieDetailPage() {
       setIsPending(true);
       try {
         const { data } = await axios.get<MovieDetails>(
-          `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
+          `${import.meta.env.VITE_TMDB_API_BASEURL}}/movie/${movieId}?language=ko-KR`,
           {
             headers: {
               Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
