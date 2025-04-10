@@ -14,7 +14,7 @@ export default function MoviePage() {
 
     const[page,setPage] = useState(1);
 
-    const {category} = useParams <{
+    const {category} = useParams<{
         category: string; }>();
 
 
@@ -37,6 +37,7 @@ export default function MoviePage() {
                 setMovies(data.results);
             } catch{
                 setIsError(true);
+                console.error();
             } finally{
                 setIsPending(false);
             }
@@ -75,9 +76,9 @@ export default function MoviePage() {
             <LoadingSpinner/></div>)}
         {!isPending &&(
             <div className='p-10 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
-            {movies.map((movie) => 
-             <MovieCard key ={movie.id} movie={movie} />
-            )}
+            {movies.map((movie):React.ReactElement =>( 
+             <MovieCard key ={movie.id} movie={movie} category={category!} />
+            ))}
     </div>
         )}
         </>

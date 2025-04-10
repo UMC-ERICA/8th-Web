@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
-import {MovieDetails} from "../types/moviedetails"
+import {MovieDetails, MovieCredits} from "../types/moviedetails"
+import MovieText from "../components/MovieInformation";
+
+
 
 export default function MovieDetailPage() {
     const [movieDetails,setMovieDetails] = useState<MovieDetails>();
@@ -11,19 +14,17 @@ export default function MovieDetailPage() {
 
     const[isError,setIsError] = useState(false);
 
+    const [movieCredits, setMovieCredits] = useState<MovieCredits>();
 
-    const params = useParams<{
-        category: string; id:string; }>();
+    const {movieId} = useParams<{ category: string; movieId:string; }>();
 
-
-
-    useEffect(():void=>{
-        const fetchMovies = async () : Promise<void> =>{
+    useEffect(() =>{
+        const fetchMovies = async () =>{
             setIsPending(true);
 
             try{
                 const {data} = await axios.get<MovieDetails>(
-                    `https://api.themoviedb.org/3/movie/${params.id}?language=ko-KR`,
+                    `${import.meta.env.VITE_BASE_URL}/${movieId}?language=ko-KR`,
                     
                     {
                         headers: {
@@ -33,7 +34,18 @@ export default function MovieDetailPage() {
                     }
                 );
                 setMovieDetails(data);
-            } catch{
+
+                const creditsResp = await axios.get<MovieCredits>(
+                    `${import.meta.env.VITE_BASE_URL}/${movieId}/credits?language=ko-KR`,
+                    {
+                      headers: {
+                        Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
+                      },
+                    }
+                  );
+                  setMovieCredits(creditsResp.data);
+            } catch(error){
+                console.log(error);
                 setIsError(true);
             } finally{
                 setIsPending(false);
@@ -42,7 +54,7 @@ export default function MovieDetailPage() {
             
         fetchMovies();
         
-    },[params.id]);
+    },[movieId]);
 
     if (isError) {
         return <div>
@@ -54,8 +66,10 @@ export default function MovieDetailPage() {
             {isPending && (
                 <div className=' flex items-center justify-center h-dvh'>
                 <LoadingSpinner/></div>)}
-            {!isPending &&(
-                <div className=''></div>
+            {!isPending && movieDetails && movieCredits &&(
+                <div className='p-10 max-w-4xl mx-auto'>
+                    <MovieText details = {movieDetails} credits={movieCredits} />
+                </div>
             )}
             </>
             

@@ -8,6 +8,6 @@ const Homepage=() =>{
             <Navbar/>
             <Outlet/>
         </div>
-    )
-}
+    );
+};
 export default Homepage;

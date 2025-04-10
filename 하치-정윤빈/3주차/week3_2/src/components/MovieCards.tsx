@@ -1,23 +1,25 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import { Movie } from "../types/movies";
 import { useState } from "react";
 
 interface MovieCardProps {
     movie: Movie;
+    category : string;
 
 }
 
 export default function MovieCard({movie}:MovieCardProps) {
     const [isHovered, setIsHovered] = useState(false);
     const navigate = useNavigate();
+    const { category } = useParams();
 
     return (<div 
-        onClick={() => navigate(`/movies/${movie.id}`)}
+        onClick={() => navigate(`/movies/${category}/${movie.id}`)}
         className='relative rounded-xl shaow-lg overflow-hidden cursor-pointer w-44 transition-transform duration-500 hover:scale-105'
         onMouseEnter={()=> setIsHovered(true)}
         onMouseLeave={()=> setIsHovered(false)}> 
         
-        <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+        <img src={`${import.meta.env.VITE_TMDB_URL}/w200${movie.poster_path}`}
         alt = {`${movie.title}영화의 이미지`}
         className=''
         />
