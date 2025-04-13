@@ -19,7 +19,7 @@ export default function MoviesPage()  {
             // 응답에 대한 타입을 정의
             try {
             const { data } = await axios.get<MovieResponse>(
-                `https://api.themoviedb.org/3/movie/${params.category}?language=en-US&page=${page}&api_key=${import.meta.env.VITE_TMDB_KEY}`,
+                `${import.meta.env.VITE_TMDB_API_BASE_URL}/movie/${params.category}?language=en-US&page=${page}&api_key=${import.meta.env.VITE_TMDB_KEY}`,
             ); 
             setMovies(data.results);
 
