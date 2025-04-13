@@ -1,44 +1,17 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Movie, MovieResponse } from "../types/movie";
+import { useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { useParams } from "react-router-dom";
+import useCustomFetch from "../hooks/useCustomFetch";
+import { MovieResponse } from "../types/movie";
 
 export default function MoviePage() {
-  const [movies , setMovies] = useState<Movie[]>([]);
-  //1. 로딩 상태
-  const [isPending, setIsPending] = useState(false);
-  //2. 오류 상태
-  const [isError, setIsError] = useState(false);
-  //3. 페이지
   const [page, setPage] = useState(1);
+  const {category} = useParams<{category: string}>();
+  //.env파일에 만들어서 하려했는데 안되서 이렇게 함
+  const url = `https://api.themoviedb.org/3/movie/${category}?language=ko-KR&page=${page}`;
 
-  const params = useParams<{category: string}>();
-
-  useEffect(() : void => {
-    const fetchMovies = async () :Promise<void>=> {
-      setIsPending(true);
-      
-      try{
-        const {data}= await axios.get<MovieResponse>(
-          `https://api.themoviedb.org/3/movie/${params.category}?language=ko-KR&page=${page}`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`
-            },
-          }
-        );
-        setMovies(data.results);
-      }catch{
-        setIsError(true);
-      }finally{
-        setIsPending(false);
-      }
-    };
-
-    fetchMovies();
-  }, [page, params.category]);
+  const {data: movies, isPending, isError} = useCustomFetch<MovieResponse>(url);
 
   if (isError) {
     return (
@@ -77,10 +50,16 @@ export default function MoviePage() {
     {!isPending && (
       <div className="p-10 grid gap-4 grid-cols-2 sm:grid-cols-3 
       md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {movies.map((movie) => 
-        (<MovieCard key={movie.id} movie={movie} />
-      ))}
-    </div>
+        {movies ? (
+          movies.results.map((movie) => 
+            (<MovieCard key={movie.id} movie={movie} />)
+          )
+        ) : (
+          <div className="col-span-full text-center text-gray-500">
+            데이터가 없습니다.
+          </div>
+        )}
+      </div>
     )}
     </>
   );
