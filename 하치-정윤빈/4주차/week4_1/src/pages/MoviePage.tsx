@@ -3,7 +3,7 @@ import { MovieResponse } from "../types/movies";
 import MovieCard from "../components/MovieCards";
 import {LoadingSpinner} from "../components/LoadingSpinner"
 import { useParams } from "react-router-dom";
-import useCustomFetch from "../hooks/UseCustomFetch";
+import useCustomFetch from "../hooks/useCustomFetch";
 
 export default function MoviePage() {
 

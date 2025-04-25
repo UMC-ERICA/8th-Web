@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import useCustomFetch from "../hooks/UseCustomFetch";
+import useCustomFetch from "../hooks/useCustomFetch";
 import { MovieDetailResponse } from "../types/movies";
 
 const MovieDetailPage=()=>{
