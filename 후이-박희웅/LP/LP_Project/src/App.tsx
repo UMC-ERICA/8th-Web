@@ -1,32 +1,54 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './App.css'
+import './App.css';
+import { createBrowserRouter, RouteObject, RouterProvider} from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
 import HomeLayout from './pages/layouts/HomeLayout';
 import SignupPage from './pages/SignupPage';
+import GoogleLoginRedirectPage from './pages/GoogleLoginRedirectPage';
 import MyPage from './pages/MyPage';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedLayout from './pages/layouts/ProtectedLayout';
 
-//1. 홈페이지
-//2. 로그인페이지
-//3. 회원가입페이지
 
-const router = createBrowserRouter([
+const publicRoutes : RouteObject[] = [
   {
-    path: "/",
+    path: '/',
     element: <HomeLayout />,
     errorElement: <NotFoundPage />,
     children: [
       {index: true, element: <HomePage />},
-      {path: "/login", element: <LoginPage />},
-      {path: "/signup", element: <SignupPage />},
-      {path: "/mypage", element: <MyPage />},
+      {path: 'login', element: <LoginPage />},
+      {path: 'signup', element: <SignupPage />},
+      {path: '/v1/auth/google/callback', element: <GoogleLoginRedirectPage />}, // 구글 로그인
+    ],
+  }
+];
+
+const privateRoutes : RouteObject[] = [
+  { 
+    path: '/my', 
+    element: <ProtectedLayout />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: '', // ✅ 이게 핵심! /my로 접근 시 MyPage 렌더링됨
+        element: <MyPage />,
+      },
     ]
-  },
-]);
+  }, 
+];
+
+const router = createBrowserRouter([
+  ...publicRoutes,
+  ...privateRoutes,
+])
 
 function App() {
-  return (<RouterProvider router={router} />)
+  return (
+    <AuthProvider>
+      <RouterProvider router = {router} />
+    </AuthProvider>
+  );
 }
-
 export default App;
