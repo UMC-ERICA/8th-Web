@@ -1,14 +1,19 @@
 import {UserSigninInformation, validateSignin} from '../utils/validate';
 import useForm from "../hooks/useForm"
 import {useNavigate} from 'react-router-dom';
-import { postSignin } from '../apis/auth';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { LOCAL_STORAGE_KEY } from '../constants/key';
+import { useAuth } from '../context/AuthContext';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const {login, accessToken} = useAuth();
 
-    const {setItem} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+    useEffect(() => {
+        if (accessToken) {
+            navigate('/my');
+        }
+    }, [navigate, accessToken]);
+
     const {values, errors, touched, getInputProps} = useForm<UserSigninInformation>({
         initialValue: {
             email: "",
@@ -17,12 +22,12 @@ const LoginPage = () => {
         validate: validateSignin,
     })
 
-    const handleSubmit = async() => {
-        console.log(values);
-        const response = await postSignin(values);
-        setItem(response.data.accessToken);
+    const handleSubmit = async () => {
+        await login(values);
+    };
 
-        console.log(response);
+    const handleGoogleLogin = async () => {
+        window.location.href = `${import.meta.env.VITE_API_URL}/v1/auth/google/login`;
     }
 
     //오류가 하나라도 있거나, 입력값이 비어있으면 버튼을 비활성화
@@ -41,8 +46,10 @@ const LoginPage = () => {
                 </div>
 
                 <button
+                    type = 'button'
                     className='flex items-center justify-center border border-white py-[10px] px-[10px] rounded-sm
-                    gap-2 hover:bg-white hover:text-black transition-colors text-base w-full'>
+                    gap-2 hover:bg-white hover:text-black transition-colors text-base w-full'
+                    onClick = {handleGoogleLogin}>
                     <span>구글 로그인</span>
                 </button>
 
@@ -52,6 +59,7 @@ const LoginPage = () => {
                     <div className='flex-1 h-px bg-gray-600' />
                 </div>
 
+            
                 <input
                     {...getInputProps("email")}
                     name="email"
@@ -80,7 +88,7 @@ const LoginPage = () => {
                 >
                     로그인
                 </button>
-            
+        
             </div>
             
         </div>
