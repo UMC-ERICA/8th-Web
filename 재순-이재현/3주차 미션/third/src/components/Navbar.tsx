@@ -8,16 +8,18 @@ const LINKS = [
     { to: "/movies/upcoming", label: "개봉 예정" },
 ];
 
-export const Navbar = (): Element => {
+import React from "react";
+
+export const Navbar = (): React.ReactElement => {
     return (
       <div className='flex gap-3 p-4'>
-        {LINKS.map(({ to, label }): Element => (
+        {LINKS.map(({ to, label }): React.ReactElement => (
           <NavLink
             key={to}
             to={to}
             className={({ isActive }): 'text-[#b2dab1] font-bold' |
-            'text-gray-5...' => {
-              return isActive? 'text-[#b2dab1] font-bold': 'text-gray-500';
+            'text-gray-500' => {
+              return isActive ? 'text-[#b2dab1] font-bold' : 'text-gray-500';
             }}
           >
             {label}
