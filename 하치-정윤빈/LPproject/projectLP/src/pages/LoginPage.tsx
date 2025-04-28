@@ -1,13 +1,20 @@
-import { postSignin } from "../apis/auth";
-import { LOCAL_STORAGE_KEY,} from "../constants/key";
 import useForm from "../hooks/useForm";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import { UserSigninInformation, validateSignin } from "../utils/validate";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 const LoginPage =()=>{
+    const {login,accessToken} = useAuth();
+    const navigate = useNavigate();
 
-    const{ setItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+    useEffect(()=>{
+        if(accessToken){
+            navigate("/");
+        }
+    },[navigate, accessToken]);
+
     const {values, errors, touched, getInputProps} = useForm<UserSigninInformation>({
         initialValue:{
             email:"",
@@ -18,21 +25,13 @@ const LoginPage =()=>{
 
 
     const handleSubmit = async()=>{
-        console.log(values);
-
-        try{
-            const response =  await postSignin(values);
-            setItem(response.data.accessToken)
-        }catch (error:unknown){
-            if (error instanceof Error){
-                alert(error.message);
-            } else{
-                console.error("알 수 없는 오류 발생: ", error);
-            }
-            
-        }
-        //console.log(response);
+        await login(values);
+        
     };
+
+    const handleGoogleLogin = ()=>{
+        window.location.href = import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
+    }
     // 오류가 있거나 비어있으면 버튼 비활성화
     const isDisabled = 
         Object.values(errors || {}).some((error)=>error.length >0) ||
@@ -58,7 +57,7 @@ const LoginPage =()=>{
                     type={"password"} 
                     placeholder={"비밀번호"}
                 />
-                {errors?.password && touched?.pasword &&(
+                {errors?.password && touched?.password &&(
                     <div className="text-red-500 text-sm">{errors.password}</div>
                 )}
                 <button 
@@ -67,6 +66,17 @@ const LoginPage =()=>{
                     disabled ={isDisabled}
                     className="w-full bg-pink-600 text-white py-3 rounded-md text-lg font-medium hover:bg-pink-700 transition-colors cursor-pointer disabled:bg-gray-700"
                 >로그인</button>
+                <button 
+                    type="button" 
+                    onClick={handleGoogleLogin} 
+                    
+                    className="w-full bg-pink-600 text-white py-3 rounded-md text-lg font-medium hover:bg-pink-700 transition-colors cursor-pointer disabled:bg-gray-700"
+                >
+                    <div className="flex items-center justify-center gap-4">
+                    <img src={"/images/google.svg"} alt="Google Logo Image"/>
+                    <span>구글로그인</span>
+                    </div>
+                    </button>
             </div>
         </div>
     );
