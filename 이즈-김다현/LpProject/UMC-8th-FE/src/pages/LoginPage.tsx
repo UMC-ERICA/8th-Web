@@ -32,7 +32,8 @@ const LoginPage = () => {
         window.location.href = import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
     }
 
-    const isDisabled = Object.values(errors || {}).some((error) => error.length > 0) || Object.values(values).some((value) => value === "");
+    const isDisabled = Object.values(errors || {}).some((error) => error.length > 0) || 
+    Object.values(values).some((value) => value === "");
 
     return (
         <div className="flex flex-col items-center justify-center h-full gap-4 bg-black">
