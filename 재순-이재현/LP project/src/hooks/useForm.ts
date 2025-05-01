@@ -11,7 +11,7 @@ function useForm<T>({initialValue, validate}: UseFormProps<T>) {
     const [errors, setErrors]: [Record<string, string>, React.Dispatch<React.SetStateAction<Record<string, string>>>] = useState<Record<string, string>>({});
 
     const handleChange = (name: keyof T, text: string) => {
-        setValues((prev) => ({
+        setValues((prev: any) => ({
             ...prev,  // 변형된 기존 값 유지
             [name]: text,
         }));

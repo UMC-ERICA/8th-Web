@@ -3,6 +3,8 @@ import { LOCAL_STORAGE_KEY } from "../constants/key.ts";
 import { useLocalStorage } from "../hooks/useLocalStorage.ts";
 
 interface CustominternalAxiosRequestConfig extends InternalAxiosRequestConfig {
+    headers: any;
+    url: string;
     _retry?: boolean; //요청 재시도 여부를 나타내는 플래그
 }
 // 전역 변수로 refresh 요청의 Promise를 저장해서 중복 요청을 방지한다.
@@ -54,7 +56,7 @@ axiosInstance.interceptors.response.use(
         originalRequest._retry = true; //재시도 플래그를 true로 설정한다.
 
         // 이미 refresh 요청이 진행 중인 경우, 해당 Promise를 기다린다.
-        if (refreshPromise) {
+        if (!refreshPromise) {
             // refresh 요청 실행 후, promise를 전역 변수에 할당.
             refreshPromise = (async () => {
                 const { getItem:getRefreshToken } = useLocalStorage(LOCAL_STORAGE_KEY.refreshToken);
