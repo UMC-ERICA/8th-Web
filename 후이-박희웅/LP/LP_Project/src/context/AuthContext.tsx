@@ -4,13 +4,16 @@ import {postSignin, postLogout} from "../apis/auth.ts";
 import {RequestSigninDto} from "../types/auth.ts";
 import {LOCAL_STORAGE_KEY} from "../constants/key.ts";
 
+// 1. AuthContextType 정의
+/* 이 Context는 accessToken, refreshToken, login(), logout() 이렇게 4개를 담고 있어야한다 */
 interface AuthContextType {
+  
     accessToken: string|null;
     refreshToken: string|null;
     login: (sigininData: RequestSigninDto, onSuccess?: () => void) => Promise<void>;
     logout: () => Promise<void>;
 }
-
+  // 로그인 상태를 앱 전체에서 사용할 수 있는 AuthContext를 생성합니다.
 export const AuthContext = createContext<AuthContextType>({
     accessToken: null,
     refreshToken: null,
@@ -18,6 +21,7 @@ export const AuthContext = createContext<AuthContextType>({
     logout: async () => {},
 });
 
+//2. useLocalStorage 커스텀 훅 호출
 export const AuthProvider = ({children}: PropsWithChildren) => {
   const {
     getItem: getAccessTokenFromStorage,
@@ -30,22 +34,26 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
       removeItem: removeRefreshTokenFromStorage,
   } = useLocalStorage(LOCAL_STORAGE_KEY.REFRESH_TOKEN);
   
-
+// 3. useState로 현재 토큰 상태 저장
   const [accessToken, setAccessToken] = useState<string | null>(getAccessTokenFromStorage());
   const [refreshToken, setRefreshToken] = useState<string | null>(getRefreshTokenFromStorage());
 
-
+// 4. 로그인 함수 정의
   const login = async (signinData: RequestSigninDto, onSuccess?: () => void) => {
     try {
       const response = await postSignin(signinData);
       if (response && response.data) {
-        const { accessToken, refreshToken } = response.data;
-  
+        const { accessToken, refreshToken, name } = response.data;
+
         setAccessTokenInStorage(accessToken);
         setRefreshTokenInStorage(refreshToken);
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
-  
+
+        if (name) {
+          localStorage.setItem("username", name);
+        }
+
         if (onSuccess) {
           onSuccess();  // ✅ 여기서 navigate("/my") 실행
         }
@@ -56,6 +64,7 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
     }
   };
 
+// 5. 로그아웃 함수 정의
 const logout = async () => {
     try {
         await postLogout();
@@ -73,6 +82,7 @@ const logout = async () => {
     }
   };
 
+// 6. Context Provider 반환 및 hook 정의
   return (
       <AuthContext.Provider value={{accessToken, refreshToken, login, logout}}>
           {children}
