@@ -21,7 +21,7 @@ function useForm<T> ({ initialValue,validate }:UseFormProps<T>){
 
     const handleBlur=(name:keyof T) => {
         setTouched({
-            ...values,
+            ...touched,
             [name]:true,
         });
     };
