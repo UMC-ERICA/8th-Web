@@ -58,7 +58,7 @@ const SignupPage = () => {
 
 
     return (
-        <div className="flex flex-col items-center justify-center h-full gap-4">
+        <div className="flex flex-col items-center justify-center h-full gap-4 text-amber-50">
             <div className="flex flex-col gap-3">
 
                 <input //이메일

@@ -1,11 +1,21 @@
-import { postSignin } from "../apis/auth";
-import { LOCAL_STORAGE_KEY } from "../constants/key";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 import useForm from "../hooks/useForm";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import { UserSigninInformation, validateSignin } from "../utils/vaildate";
+import { useNavigate } from "react-router-dom";
+import logo from "../image/logo.png"; 
 
 const LoginPage = () => {
-    const { setItem } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken)
+    const { login, accessToken } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (accessToken) {
+            navigate("/")
+        }
+    }, [navigate, accessToken]);
+
+
     const { values, errors, touched, getInputProps} = useForm<UserSigninInformation>({
         initialValue: {
             email: "",
@@ -15,28 +25,19 @@ const LoginPage = () => {
     });
 
     const handleSubmit = async () => {
-        console.log(values);
-
-        try {
-            const response = await postSignin(values);
-            setItem(response.data.accessToken);
-            console.log(response);
-            // Navigate("/my");
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-              alert(error.message);
-            } else {
-              alert("알 수 없는 에러가 발생했습니다.");
-            }
-          }
-        
+        await login(values);
     };
 
-    const isDisabled = Object.values(errors || {}).some((error) => error.length > 0) || Object.values(values).some((value) => value === "");
+    const handleGoogleLogin = () => {
+        window.location.href = import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
+    }
+
+    const isDisabled = Object.values(errors || {}).some((error) => error.length > 0) || 
+    Object.values(values).some((value) => value === "");
 
     return (
-        <div className="flex flex-col items-center justify-center h-full gap-4">
-            <div className="flex flex-col gap-3">
+        <div className="flex flex-col items-center justify-center h-full gap-4 bg-black">
+            <div className="flex flex-col gap-3 text-violet-50">
 
                 <input 
                 {...getInputProps("email")}
@@ -63,6 +64,16 @@ const LoginPage = () => {
                 disabled={isDisabled}
                 className="w-full bg-blue-500 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-200 transition-colors cursor-pointer disabled:bg-gray-400">
                     로그인
+                </button>
+
+                <button
+                type="button" 
+                onClick={handleGoogleLogin} 
+                className="w-full bg-blue-500 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-200 transition-colors cursor-pointer disabled:bg-gray-400">
+                    <div className="flex items-center justify-center gap-4">
+                        <img src={logo} alt="Google Logo image" className="w-8 h-8" />
+                        <span> 구글 로그인 </span>
+                    </div>
                 </button>
             </div>
         </div>
