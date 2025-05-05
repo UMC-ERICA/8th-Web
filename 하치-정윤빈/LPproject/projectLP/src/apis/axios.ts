@@ -8,7 +8,7 @@ interface CustominternalAxiosRequestConfig extends InternalAxiosRequestConfig{
 }
 
 //전역 변수로 refresh 요청의 Promise를 저장해 중복 요청 방지
-let refreshPromise:Promise<string> |null = null;
+let refreshPromise:Promise<string> | null = null;
 
 export const axiosInstance = axios.create({
     baseURL:import.meta.env.VITE_SERVER_API_URL,
@@ -44,8 +44,8 @@ axiosInstance.interceptors.response.use(
                 const {removeItem:removeAccessToken} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
                 const {removeItem:removeRefreshToken} = useLocalStorage(LOCAL_STORAGE_KEY.refreshToken);
 
-                removeAccessToken;
-                removeRefreshToken;
+                removeAccessToken();
+                removeRefreshToken();
                 window.location.href="/login";
                 return Promise.reject(error);
             }
