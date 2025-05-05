@@ -60,9 +60,9 @@ const SignupPage = () => {
 
         if (response.status){
             alert('회원가입이 완료되었습니다.');
-            navigate('/my');
+            navigate('/login');
         }
-        console.log(response);
+        console.log(response, passwordCheck);
     }
         
     return (
@@ -76,7 +76,7 @@ const SignupPage = () => {
                     <h1 className="text-center w-full -ml-4">회원가입</h1>
                 </div>
 
-                {step === 1 && (
+                {step == 1 && (
                     <>
                         <button className = 'flex items-center justify-center border border-white py-[10px] rounded-sm gap-2 hover:bg-white hover:text-black transition-colors text-base w-full'>
                             <span>구글 로그인</span>
@@ -89,7 +89,7 @@ const SignupPage = () => {
                         </div>
                     </>
                 )}
-                {step === 1 && (
+                {step == 1 && (
                     <>
                         <input
                         {...register("email")}
@@ -111,7 +111,7 @@ const SignupPage = () => {
                     </>
                 )}
 
-                {step === 2 && (
+                {step == 2 && (
                     <>
                     <div className='flex items-center gap-2'>
                         <span className='text-white text-sm'>
@@ -132,8 +132,8 @@ const SignupPage = () => {
                             onClick = {() => setShowPassword((prev) => !prev)}
                             className='absolute right-2 top-1/2 -translate-y-1/2 text-xl text-white'>
                                 {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
-                            </button>
-                        </div>
+                        </button>
+                    </div>
                         {errors.password && (
                         <div className={'text-red-500 text-sm'}>{errors.password.message}</div>
                         )}
@@ -166,7 +166,7 @@ const SignupPage = () => {
                     </>
                 )}
                 
-                {step === 3 && (
+                {step == 3 && (
                     <>
                         <div className="flex flex-col items-center gap-2">
                             <div className="w-[100px] h-[100px] rounded-full bg-gray-400" />

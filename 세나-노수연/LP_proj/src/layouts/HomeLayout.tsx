@@ -1,4 +1,5 @@
 import {Link, Outlet} from 'react-router-dom'
+import Footer from '../components/Footer';
 
 const HomeLayout = () => {
     return (
@@ -26,6 +27,7 @@ const HomeLayout = () => {
             <Outlet />
         </main>
 
+        <Footer />
         <footer className="text-center py-4 border-t border-gray-700 text-sm text-gray-400">
             this is the Footer
         </footer>

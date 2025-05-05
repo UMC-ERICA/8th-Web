@@ -29,7 +29,7 @@ export type ResponseSigninDto = CommonResponse<{
     id: number;
     name: string;
     accessToken: string;
-    rereshToken: string;
+    refreshToken: string;
 }>;
 
 // 내 정보 조회
