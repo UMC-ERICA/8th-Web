@@ -1,14 +1,25 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"
+import Navbar from "../component/Navbar";
+import Footer from "../component/Footer";
 
 const ProtectedLayout = () => {
     const { accessToken } = useAuth();
+    const location = useLocation();
 
     if(!accessToken) {
-        return <Navigate to = {'/login'} replace/>
+        return <Navigate to = {'/login'} state={{location}} replace/>
     }
 
-    return <Outlet/>
+    return (
+        <div className="h-dvh flex flex-col bg-black">
+            <Navbar />
+            <main className="flex-1 mt-10">
+                <Outlet />
+            </main>
+            <Footer />
+        </div>
+    )
 }
 
 export default ProtectedLayout;
