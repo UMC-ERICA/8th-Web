@@ -1,9 +1,10 @@
-import { useEffect } from "react"
+import { JSX, useEffect, useState } from "react"
+import { LodingSpinner } from "../components/LoadingSpinner";
 import axios from "axios";
 import MovieCard from "../components/MovieCard";
-import { MovieResponse } from "../types/movie";
+import { Movie, MovieResponse } from "../types/movie";
 import { useParams } from "react-router-dom";
-export default function MoviePage() : Element{
+export default function MoviePage(): JSX.Element {
         const [movies, setMovies] = useState<Movie[]>([]);
 
         // 1. 로딩 상태
@@ -70,15 +71,15 @@ export default function MoviePage() : Element{
         </div>
         {isPending && (
             <div className="flex items-center justify-center h-dvh">
-            <LoadingSpinner />
+            <LodingSpinner />
         </div>
     )}
 
     {!isPending && (
         <div className="p-10 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
         lg:grid-cols-5 xl:grid-cols-6"> 
-            {movies.map((movie): Element => (
-            <MovieCard key ={movie.id} movie={movie}/>
+            {movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
             ))}
             </div>
             )}
