@@ -26,7 +26,7 @@ const publicRoutes : RouteObject[] = [
       {path: 'login', element: <LoginPage />},
       {path: 'signup', element: <SignupPage />},
       {path: '/v1/auth/google/callback', element: <GoogleLoginRedirectPage />}, // 구글 로그인
-      { path: 'lp/:id', element: <LpDetailPage /> },
+      { path: 'lp/:lpid', element: <LpDetailPage /> },
     ],
   }
 ];
@@ -50,11 +50,11 @@ const router = createBrowserRouter([
   ...privateRoutes,
 ])
 
-export const queryClient = () => new QueryClient();
+export const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient()}>
+    <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <RouterProvider router = {router} />
       </AuthProvider>

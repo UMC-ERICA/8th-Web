@@ -14,7 +14,7 @@ const LpCard = ({ lp }: LpCardProps) => {
           alt={lp.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300">
           <div className="absolute bottom-2 left-2 text-white text-sm space-y-1">
             <h2 className="font-semibold">{lp.title}</h2>
             <p>{lp.createdAt ? new Date(lp.createdAt).toLocaleDateString() : '날짜 없음'}</p>
