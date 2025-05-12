@@ -39,7 +39,8 @@ const HomePage =()=>{
     console.log('Flattened Data:', lps?.pages?.map((page)=>page.data.data)?.flat());
     return(
         <div className="container mx-auto px-4 py-6">
-            <input value={search} onChange={(e)=>setSearch(e.target.value)}/>
+            <input  className="border-2 border-gray-500"
+            value={search} onChange={(e)=>setSearch(e.target.value)}/>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {lps?.pages?.map((page)=>page.data.data)
