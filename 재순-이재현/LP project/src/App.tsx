@@ -11,6 +11,7 @@ import ProtectedLayout from './layouts/ProtectedLayout.tsx';
 import GoogleLoginRedirectPage from './pages/GoogleLoginRedirectPage.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { LpDetailPage } from './pages/LpDetailPage.tsx';
 
 
 //1. 홈페이지
@@ -28,6 +29,7 @@ const publicRoutes: RouteObject[] = [
         { path: "login", element: <LoginPage /> },
         { path: "signup", element: <SignupPage /> },
         { path: "v1/auth/google/callback", element: <GoogleLoginRedirectPage/>},
+        { path: "lps/:lpid", element: <LpDetailPage /> },
       ],
     },
   ];

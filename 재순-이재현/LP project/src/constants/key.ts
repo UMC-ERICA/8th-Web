@@ -3,8 +3,11 @@ export const LOCAL_STORAGE_KEY: { accessToken: string; refreshToken: string } = 
     refreshToken: "refreshToken",
 };
 
-export const QUERY_KEY: { lps: string; lp: string; user: string } = {
+export const QUERY_KEY: {
+    myInfo: any; lps: string; lp: string; user: string 
+} = {
     lps: "lps",
     lp: "",
-    user: ""
+    user: "",
+    myInfo: undefined
 };
