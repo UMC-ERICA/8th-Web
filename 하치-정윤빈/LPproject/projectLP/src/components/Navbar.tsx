@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import { ResponseMyInfoDto } from "../types/auth";
 
 const Navbar = ()=>{
     const {accessToken} = useAuth();
-    
+    const [data, setData] = useState<ResponseMyInfoDto>();
 
     return (
         <nav className="bg-white dark:bg-gray-900 shadow-md fixed w-full z-10">
@@ -23,15 +25,20 @@ const Navbar = ()=>{
                         </Link></>
                     )}
                     {accessToken &&(
+                    <div className="">
+                    <h1 className="text-pink-400">{data?.data.name}님 환영합니다.</h1>
                     <Link to= {"/mypage"}
                     className="text-gray-700 dark:text-gray-300 hover:text-blue-500">
                         마이페이지
                     </Link>
+                    <Link to= {"/search"}
+                    className="text-gray-700 dark:text-gray-300 hover:text-blue-500">
+                    검색
+                    </Link>
+                    </div>
+                    
                 )}
-                <Link to= {"/search"}
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-500">
-                검색
-                </Link>
+                
                 </div>
                 </div>
             </div>

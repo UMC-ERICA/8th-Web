@@ -11,7 +11,7 @@ function useForm<T> ({ initialValue,validate }:UseFormProps<T>){
     const [touched, setTouched] = useState<Record<string, boolean>>()
     const [errors, setErrors] = useState<Record<string,string>>()
 
-    //사용자가 입력값을 바꿀 떄 실행되는 함수수
+    //사용자가 입력값을 바꿀 떄 실행되는 함수
     const handleChange = (name:keyof T, text: string) =>{
         setValues({
             ...values, //불변성 유지

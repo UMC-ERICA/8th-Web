@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { getMyInfo } from "../apis/auth";
-import { ResopnseMyInfoDto } from "../types/auth";
+import { ResponseMyInfoDto } from "../types/auth";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const MyPage = () =>{
     const navigate =useNavigate();
     const {logout} =useAuth();
-    const [data, setData] = useState<ResopnseMyInfoDto>();
+    const [data, setData] = useState<ResponseMyInfoDto>();
 
     useEffect(()=>{
         const getData = async() => {
