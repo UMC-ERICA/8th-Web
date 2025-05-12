@@ -1,11 +1,11 @@
 import {Movie} from "../types/movie";
-import {useState} from "react";
+import {JSX, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 interface MovieCardProps {
     movie: Movie;
 }
-export default function Moviecard({movie}: MovieCardProps): Element {
+export default function Moviecard({movie}: MovieCardProps): JSX.Element {
     const [isHovered, setIsHovered] = useState(false);
     const navigate = useNavigate();
 

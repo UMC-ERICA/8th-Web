@@ -2,6 +2,9 @@ import './App.css';
 import MoviePage from './pages/MoviePage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFoundPage from './pages/NotFoundPage';
+import HomePage from './pages/Homepage';
+import MovieDetailPage from './pages/MovieDetailPage';
+import { JSX } from 'react';
 // BrowserRouter v5
 // createVrowsedRouter v6
 
@@ -33,7 +36,7 @@ const router = createBrowserRouter([
 // movies/123
 
 
-function App() : Element {
+function App(): JSX.Element {
   return <RouterProvider router={router} />;
 }
 
