@@ -15,7 +15,7 @@ const MyPage = () => {
             const response = await getMyInfo();
             console.log(response);
 
-            setData(response);
+            if(response.data) setData(response);
         };
 
         getData();
@@ -27,10 +27,12 @@ const MyPage = () => {
     }
 
     console.log("avatar:", data?.data?.avatar)
+    
 
     return (
         <div>
-            <h1 className="text-cyan-200">{data?.data?.name}님 환영합니다.</h1>
+            <h1 className="text-cyan-200 mt-20">{data?.data.name}님 환영합니다.</h1>
+            <h1 className="text-cyan-200">님 환영합니다.</h1>
             <img src={data?.data?.avatar ?? "/default-avatar.png"} alt="구글 로고" />
             <h1 className="text-cyan-500">{data?.data?.email}</h1>
             <button 
