@@ -12,6 +12,7 @@ import MyPage from './pages/MyPage';
 import LpDetailPage from './pages/LpDetailPage';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedLayout from './pages/layouts/ProtectedLayout';
+import ThrrottlePage from './pages/ThrottlePage';
 
 
 const publicRoutes : RouteObject[] = [
@@ -27,6 +28,7 @@ const publicRoutes : RouteObject[] = [
       {path: 'signup', element: <SignupPage />},
       {path: '/v1/auth/google/callback', element: <GoogleLoginRedirectPage />}, // 구글 로그인
       { path: 'lp/:lpid', element: <LpDetailPage /> },
+      {path: 'throttle', element: <ThrrottlePage/>}
     ],
   }
 ];
@@ -38,7 +40,7 @@ const privateRoutes : RouteObject[] = [
     errorElement: <NotFoundPage />,
     children: [
       {
-        path: '', // ✅ 이게 핵심! /my로 접근 시 MyPage 렌더링됨
+        path: '', 
         element: <MyPage />,
       },
     ]

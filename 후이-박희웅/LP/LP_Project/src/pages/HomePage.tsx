@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import LpCard from "../components/LpCard";
 import LpCardSkeleton from "../components/LpCardSkeleton";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import useDebounce from "../hooks/queries/useDebounce";
+import { FaSearch } from "react-icons/fa";
 
 type LocalLp = {
   id: number;
@@ -46,6 +48,10 @@ const HomePage = () => {
   const [lpList, setLpList] = useState<LocalLp[]>([]);
   const [lpIdCounter, setLpIdCounter] = useState(1);
 
+  // 검색창 상태
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedQuery = useDebounce(searchQuery, 300); // 300ms 디바운스 적용
+
   // Example handlers and states for adding LP (assuming you have inputs elsewhere)
   // These states are placeholders; in your actual code, you should have input fields and modal state
   const [lpTitle, setLpTitle] = useState("");
@@ -84,32 +90,47 @@ const HomePage = () => {
   console.log("LP data: ", data);
 
   return (
-    
     <div className="w-full min-h-screen bg-black">
-      <div className="flex justify-end px-4 pt-4 gap-2">
-        <button
-          onClick={() => handleSort("latest")}
-          className={`px-3 py-1 text-sm border rounded-l ${
-            orderParam === "latest" ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
-          최신순
-        </button>
-        <button
-          onClick={() => handleSort("oldest")}
-          className={`px-3 py-1 text-sm border rounded-r ${
-            orderParam !== "latest" ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
-          오래된순
-        </button>
+      {/* 정렬 버튼과 검색창을 한 줄에 배치 */}
+      <div className="flex flex-wrap items-center gap-4 px-4 pt-2">
+        <div className="flex items-center border rounded px-2 bg-black">
+          <FaSearch className="text-white mr-2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="검색어 입력"
+            className="px-2 py-1 bg-black text-white text-sm outline-none"
+          />
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => handleSort("latest")}
+            className={`px-3 py-1 text-sm border rounded-l ${
+              orderParam === "latest" ? "bg-black text-white" : "bg-white text-black"
+            }`}
+          >
+            최신순
+          </button>
+          <button
+            onClick={() => handleSort("oldest")}
+            className={`px-3 py-1 text-sm border rounded-r ${
+              orderParam !== "latest" ? "bg-black text-white" : "bg-white text-black"
+            }`}
+          >
+            오래된순
+          </button>
+        </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 pt-16">
-        {data?.pages.map((page) =>
-          page.data.data.map((lp) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4 pt-4">
+        {data?.pages
+          .flatMap((page) => page.data.data)
+          .filter((lp) =>
+            lp.title.toLowerCase().includes(debouncedQuery.toLowerCase())
+          )
+          .map((lp) => (
             <LpCard key={lp.id} lp={lp} />
-          ))
-        )}
+          ))}
         {isFetching && (
           <>
             {Array.from({ length: 5 }).map((_, idx) => (
@@ -121,12 +142,7 @@ const HomePage = () => {
       <div ref={ref} className="h-1" />
       {/* Render local LP list below in a grid */}
       <div className="flex justify-end px-4 pt-4">
-        <button
-          onClick={handleRegisterLp}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Register LP
-        </button>
+        <span onClick={handleRegisterLp}></span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6">
         {lpList.map((lp) => (

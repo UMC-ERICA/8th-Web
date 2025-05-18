@@ -70,7 +70,7 @@ const MyPage = () => {
           
           alt="프로필 이미지"
           className="w-32 h-32 rounded-full object-cover border"
-        />
+        /> 
         <div className="flex flex-col gap-2 text-left">
           <p className="text-xl font-semibold">{data?.data.name}</p>
           <p className="text-gray-500">{data?.data.email}</p>
