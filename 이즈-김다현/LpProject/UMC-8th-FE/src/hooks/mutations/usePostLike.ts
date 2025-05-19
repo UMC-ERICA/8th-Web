@@ -23,7 +23,7 @@ function usePostLike() {
 
             // 4. 게시글에 저장된 좋아요 목록에서 현재 내가 눌렀던 좋아요의 위치를 찾기
             const me = queryClient.getQueryData<ResponseMyInfoDto>([QUERY_KEY.myInfo]);
-            const userId = Number(me?.data.id)
+            const userId = Number(me?.data.id)  
 
             const likeindex = previousLpPost?.data.likes.findIndex((like) => like.userId === userId) ?? -1;
 

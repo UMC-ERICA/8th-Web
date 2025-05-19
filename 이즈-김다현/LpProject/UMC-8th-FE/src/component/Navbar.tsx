@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Search } from "lucide-react";
+import { Search, Sidebar } from "lucide-react";
 
 const Navbar = () => {
     const { accessToken, logout } = useAuth();
+
     const handleLogout = () => {
         logout();
     };
@@ -11,6 +12,8 @@ const Navbar = () => {
     return (
     <nav className="bg-blue-200 dark:bg-gray-900 shadow-md fixed w-full z-10">
         <div className="flex items-center justify-between p-4">
+
+            <Sidebar />
             <Link to = "/" className="text-xl font-bold text-gray-900 dark:text-white">빙글빙글정신머리</Link>
             <div className="flex items-center gap-4">
                 {!accessToken && (
