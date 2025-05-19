@@ -19,3 +19,10 @@ export type PaginationDto = {
     search?:string;
     order?:PAGINATION_ORDER;
 }
+
+export type CommentPaginationDto = {
+    lpId:number;
+    cursor?:number;
+    limit?: number;
+    order?: PAGINATION_ORDER;
+}

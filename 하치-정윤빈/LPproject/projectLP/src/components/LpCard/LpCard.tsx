@@ -17,13 +17,13 @@ const LpCard = ({lp}:LpCardProps )=> {
         onMouseEnter={()=>setIsHovered(true)}
         onMouseLeave={()=>setIsHovered(false)}>
                     <img src={lp.thumbnail} alt={lp.title} className='object-cover w-full h-48'/>
-                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 p-2">
+                    {/* <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 p-2">
                         <h3 className="text-white text-sm font-semibold">{lp.title}</h3>
-                    </div>
+                    </div> */}
 
                 {isHovered &&(
                     <div className="absolute inset-0 bg-gradient-to-t from black/90 to-transparent backdrop-blur-md justify-center ">
-                        <h2 className="text-lg font-bold text-white leading-snug mt-10">{lp.content}</h2>
+                        <h2 className="text-lg font-bold text-white leading-snug  mt-15">{lp.content}<br/>-<br/>{lp.title}</h2>
 
                     </div>
                 )}

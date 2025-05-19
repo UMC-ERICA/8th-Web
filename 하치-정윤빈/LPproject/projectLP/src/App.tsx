@@ -12,6 +12,7 @@ import GoogleLoginRedirectPage from './pages/GoogleLoginRedirectPage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import LpDetailPage from './pages/LpDetailPage'
+import ThrottlePage from './pages/ThrottlePage'
 
 //publicRoutes
 const publicRoutes:RouteObject[] =[
@@ -24,19 +25,20 @@ const publicRoutes:RouteObject[] =[
       {path: 'login', element: <LoginPage/>},
       {path: 'signup', element: <SignupPage/>},
       {path: 'v1/auth/google/callback', element:<GoogleLoginRedirectPage/>},
-      {path: 'lps/:lpId', element:<LpDetailPage/>}
+      {path: 'lps/:lpId', element:<LpDetailPage/>},
+      {path: '/throttle', element:<ThrottlePage/>}
     ]
   }
 ];
 //protectedRoutes
 const protectedRoutes:RouteObject[]=[
   {
-    path:'/',
+    path:'/mypage',
     element:<ProtectedLayout/>,
     errorElement:<NotFoundPage/>,
     children:[
       {
-        path: 'mypage', element:<MyPage/>,
+        index:true, element:<MyPage/>,
       }
     ]
   }
