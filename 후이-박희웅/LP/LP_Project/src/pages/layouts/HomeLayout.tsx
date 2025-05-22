@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react'
-import { FaSearch, FaUser } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 
 const ProtectedLayout = () => {
     const navigate = useNavigate()
@@ -35,12 +35,20 @@ const ProtectedLayout = () => {
         }
       };
 
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          // Removed search modal close logic
+        }
+      };
+
       document.addEventListener("mousedown", handleClickOutside);
       window.addEventListener("resize", handleResize);
+      document.addEventListener("keydown", handleKeyDown);
 
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
         window.removeEventListener("resize", handleResize);
+        document.removeEventListener("keydown", handleKeyDown);
       };
     }, []);
 
@@ -61,9 +69,6 @@ const ProtectedLayout = () => {
                 <div className="flex items-center gap-3">
                   {isLoggedIn ? (
                     <>
-                      <Link to="/search" className="text-white hover:text-pink-400 text-xl">
-                        <FaSearch />
-                      </Link>
                       <span className="text-sm">{username}님 안녕하세요</span>
                       <button
                         onClick={() => {
@@ -81,9 +86,6 @@ const ProtectedLayout = () => {
                     </>
                   ) : (
                     <>
-                      <Link to="/search" className="text-white hover:text-pink-400 text-xl">
-                        <FaSearch />
-                      </Link>
                       <Link to="/login" className="text-base px-2 py-1 hover:text-pink-400">로그인</Link>
                       <Link to="/signup" className="text-base px-2 py-1 hover:text-pink-400">회원가입</Link>
                     </>
@@ -99,11 +101,6 @@ const ProtectedLayout = () => {
                 }`}
               >
                 <ul className="space-y-4 text-sm">
-                  <li>
-                    <Link to="/search" className="flex items-center gap-2 hover:text-pink-400">
-                      <FaSearch /> 찾기
-                    </Link>
-                  </li>
                   <li>
                     <Link to="/mypage" className="flex items-center gap-2 hover:text-pink-400">
                       <FaUser /> 마이페이지
