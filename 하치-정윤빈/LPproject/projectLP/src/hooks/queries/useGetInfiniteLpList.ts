@@ -12,10 +12,11 @@ function useGetInfiniteLpList( limit : number, search :string, order:PAGINATION_
         initialPageParam:0,
         getNextPageParam:(lastPage,allPages)=>{
             //console.log(lastPage,allPages);
-            return lastPage.data.hasNext?lastPage.data.nextCursor : undefined;
-            
-
-        }
+            return lastPage.data.hasNext?lastPage.data.nextCursor : undefined; 
+        },
+        staleTime:1000*60*5,
+        retry: 1,
+        retryDelay: 1000,
     });
 }
 

@@ -71,7 +71,8 @@ export const AuthProvider = ({children}:PropsWithChildren)=>{
             setAccesstoken(null);
             setRefreshtoken(null);
 
-            alert("로그아웃 성공")
+            alert("로그아웃 성공");
+            window.location.href="/";
         }catch (error){
             console.error("로그아웃 오류", error);
             alert('로그아웃 실패');

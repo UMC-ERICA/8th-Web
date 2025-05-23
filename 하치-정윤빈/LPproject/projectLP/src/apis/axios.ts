@@ -77,8 +77,10 @@ axiosInstance.interceptors.response.use(
                 .catch((error)=>{
                     const {removeItem:removeAccessToken} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
                     const{removeItem:removeRefreshToken} = useLocalStorage(LOCAL_STORAGE_KEY.refreshToken);
-                    removeAccessToken()
-                    removeRefreshToken()
+                    removeAccessToken();
+                    removeRefreshToken();
+                    window.location.href ="/login";
+                    return Promise.reject(error);
                 }).finally(()=>{
                     refreshPromise =null;
                 });
@@ -86,7 +88,11 @@ axiosInstance.interceptors.response.use(
             return refreshPromise.then((newAccessToken)=>{
                 originalRequest.headers["Authorization"] = `Bearer${newAccessToken}`;
                 return axiosInstance.request(originalRequest);
-            });
+            }).catch((error) => {
+                window.location.href = "/login";
+                return Promise.reject(error);
+            })
+            ;
         }
         //401 에러가 아닌 경우 그대로 오류를 반환환
         return Promise.reject(error);
