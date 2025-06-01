@@ -6,7 +6,7 @@ type ModalState = {
 };
 
 const initialState: ModalState= {
-    type:'모두 지우시겠습니까',
+    type:'',
     isOpen: false,
 };
 
